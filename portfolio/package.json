@@ -1,0 +1,12 @@
+{
+  "name": "lewis-portfolio",
+  "version": "1.0.0",
+  "description": "Mwesigwa Lewis Portfolio",
+  "scripts": {
+    "dev": "vercel dev",
+    "deploy": "vercel --prod"
+  },
+  "dependencies": {
+    "resend": "^3.0.0"
+  }
+}
