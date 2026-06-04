@@ -15,6 +15,7 @@
     --gray-light: #cbd5e1;
     --success: #22c55e;
     --warning: #f59e0b;
+    --error: #ef4444;
     
     --gradient-1: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #d946ef 100%);
     --gradient-2: linear-gradient(135deg, #06b6d4 0%, #6366f1 100%);
@@ -318,6 +319,12 @@ img {
 .btn-primary:hover {
     transform: translateY(-2px);
     box-shadow: var(--shadow-xl), var(--shadow-glow);
+}
+
+.btn-primary:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none;
 }
 
 .btn-secondary {
@@ -1130,7 +1137,7 @@ section {
 }
 
 /* ============================================
-   TOAST NOTIFICATION
+   TOAST NOTIFICATIONS
    ============================================ */
 .toast {
     position: fixed;
@@ -1153,6 +1160,11 @@ section {
 
 .toast.show {
     transform: translateX(0);
+}
+
+.toast-error {
+    border-color: rgba(239, 68, 68, 0.3);
+    color: var(--error);
 }
 
 /* ============================================
@@ -1366,6 +1378,12 @@ section {
     
     .exp-number {
         font-size: 1.5rem;
+    }
+    
+    .toast {
+        left: 16px;
+        right: 16px;
+        bottom: 16px;
     }
 }
 
