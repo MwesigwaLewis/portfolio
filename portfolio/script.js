@@ -99,24 +99,56 @@ skillBars.forEach(bar => {
 });
 
 // ============================================
-// CONTACT FORM
+// CONTACT FORM WITH RESEND BACKEND
 // ============================================
 const contactForm = document.getElementById('contactForm');
 const toast = document.getElementById('toast');
+const toastError = document.getElementById('toastError');
 
-contactForm.addEventListener('submit', (e) => {
+function showToast(element) {
+    element.classList.add('show');
+    setTimeout(() => element.classList.remove('show'), 4000);
+}
+
+contactForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     
-    // Show toast
-    toast.classList.add('show');
+    const btn = contactForm.querySelector('button[type="submit"]');
+    const originalHTML = btn.innerHTML;
     
-    // Reset form
-    contactForm.reset();
+    // Show loading state
+    btn.innerHTML = '<span>Sending...</span><i class="fas fa-spinner fa-spin"></i>';
+    btn.disabled = true;
     
-    // Hide toast after 3 seconds
-    setTimeout(() => {
-        toast.classList.remove('show');
-    }, 3000);
+    try {
+        const response = await fetch('/api/contact', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                name: document.getElementById('name').value.trim(),
+                email: document.getElementById('email').value.trim(),
+                message: document.getElementById('message').value.trim()
+            })
+        });
+        
+        const data = await response.json();
+        
+        if (response.ok && data.success) {
+            showToast(toast);
+            contactForm.reset();
+        } else {
+            console.error('Server error:', data.error);
+            showToast(toastError);
+        }
+        
+    } catch (err) {
+        console.error('Network error:', err);
+        showToast(toastError);
+    } finally {
+        // Restore button
+        btn.innerHTML = originalHTML;
+        btn.disabled = false;
+    }
 });
 
 // ============================================
@@ -147,25 +179,3 @@ window.addEventListener('scroll', () => {
         heroGrid.style.transform = `translateY(${scrolled * 0.3}px)`;
     }
 });
-
-// ============================================
-// TYPING EFFECT FOR HERO (Optional enhancement)
-// ============================================
-const heroSubtitle = document.querySelector('.hero-subtitle');
-if (heroSubtitle) {
-    const text = heroSubtitle.innerHTML;
-    heroSubtitle.innerHTML = '';
-    heroSubtitle.style.opacity = '1';
-    
-    let i = 0;
-    const typeWriter = () => {
-        if (i < text.length) {
-            heroSubtitle.innerHTML = text.substring(0, i + 1);
-            i++;
-            setTimeout(typeWriter, 30);
-        }
-    };
-    
-    // Start typing effect after a short delay
-    setTimeout(typeWriter, 500);
-}
