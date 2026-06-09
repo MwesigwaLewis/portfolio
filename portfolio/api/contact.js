@@ -24,7 +24,7 @@ export default async function handler(req, res) {
 
     try {
         const { data, error } = await resend.emails.send({
-            from: 'Portfolio <onboarding@resend.dev>',
+            from: 'Website <website@centralhub.space>',
             to: 'mwesigwalewis15@gmail.com',
             subject: `Portfolio Contact from ${name}`,
             replyTo: email,
